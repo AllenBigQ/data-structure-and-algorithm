@@ -4,44 +4,35 @@ import java.util.Arrays;
 /**
  * 
  * @author Allen
- * 冒泡排序
+ * 选择排序
  */
-public class Code_00_BubbleSort {
+public class Code_02_SelectionSort {
 
-	public static void bubbleSort(int[] arr) {
-		//如果数组为空或者长度小于2说明有序 直接返回
+	public static void selectionSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		/*第一层循环end代表数组最后一个位置
-		 * 第二层循环依次比较，如果前一个数大于后一个数就交换，然后end--缩小寻找范围
-		 * 再执行第二层循环找到这个范围的最大值再与end位置交换*/
-		for (int end = arr.length - 1; end > 0; end--) {
-			for (int i = 0; i < end; i++) {
-				if (arr[i] > arr[i + 1]) {
-					swap(arr, i, i + 1);
-				}
+		for (int i = 0; i < arr.length - 1; i++) {
+			int minIndex = i;
+			for (int j = i + 1; j < arr.length; j++) {
+				minIndex = arr[j] < arr[minIndex] ? j : minIndex;
 			}
+			swap(arr, i, minIndex);
 		}
 	}
-	//交换数组下标i,j的值
+
 	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
-		/*
-		 * int tmp=arr[i];
-		 * arr[i]=arr[j];
-		 * arr[j]=tmp;
-		 */
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
-	// for test 对数器
+	// for test
 	public static void comparator(int[] arr) {
 		Arrays.sort(arr);
 	}
 
-	// for test 生成一个随机数组 maxSize最大长度0~maxSize，maxValue最大值 -maxValue~maxValue
+	// for test
 	public static int[] generateRandomArray(int maxSize, int maxValue) {
 		int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
 		for (int i = 0; i < arr.length; i++) {
@@ -101,10 +92,12 @@ public class Code_00_BubbleSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			bubbleSort(arr1);
+			selectionSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
+				printArray(arr1);
+				printArray(arr2);
 				break;
 			}
 		}
@@ -112,8 +105,9 @@ public class Code_00_BubbleSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		bubbleSort(arr);
+		selectionSort(arr);
 		printArray(arr);
 	}
 
 }
+

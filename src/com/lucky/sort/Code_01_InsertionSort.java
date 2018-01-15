@@ -4,44 +4,38 @@ import java.util.Arrays;
 /**
  * 
  * @author Allen
- * 冒泡排序
+ * 插入排序
  */
-public class Code_00_BubbleSort {
-
-	public static void bubbleSort(int[] arr) {
-		//如果数组为空或者长度小于2说明有序 直接返回
+public class Code_01_InsertionSort {
+	/*第一层循环是无序表第二层循环是有序表，
+	默认数组的第一个数i=0是有序表，
+	然后从第二个数i=1开始往有序表里插入，
+	插入的同时进行比较，如果前一个数存在并且大于后一个数则交换
+	j--继续比较
+	*/
+	public static void insertionSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		/*第一层循环end代表数组最后一个位置
-		 * 第二层循环依次比较，如果前一个数大于后一个数就交换，然后end--缩小寻找范围
-		 * 再执行第二层循环找到这个范围的最大值再与end位置交换*/
-		for (int end = arr.length - 1; end > 0; end--) {
-			for (int i = 0; i < end; i++) {
-				if (arr[i] > arr[i + 1]) {
-					swap(arr, i, i + 1);
-				}
+		for (int i = 1; i < arr.length; i++) {
+			for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
+				swap(arr, j, j + 1);
 			}
 		}
 	}
-	//交换数组下标i,j的值
+
 	public static void swap(int[] arr, int i, int j) {
 		arr[i] = arr[i] ^ arr[j];
 		arr[j] = arr[i] ^ arr[j];
 		arr[i] = arr[i] ^ arr[j];
-		/*
-		 * int tmp=arr[i];
-		 * arr[i]=arr[j];
-		 * arr[j]=tmp;
-		 */
 	}
 
-	// for test 对数器
+	// for test
 	public static void comparator(int[] arr) {
 		Arrays.sort(arr);
 	}
 
-	// for test 生成一个随机数组 maxSize最大长度0~maxSize，maxValue最大值 -maxValue~maxValue
+	// for test
 	public static int[] generateRandomArray(int maxSize, int maxValue) {
 		int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
 		for (int i = 0; i < arr.length; i++) {
@@ -101,7 +95,7 @@ public class Code_00_BubbleSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			bubbleSort(arr1);
+			insertionSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
@@ -112,8 +106,9 @@ public class Code_00_BubbleSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		bubbleSort(arr);
+		insertionSort(arr);
 		printArray(arr);
 	}
 
 }
+

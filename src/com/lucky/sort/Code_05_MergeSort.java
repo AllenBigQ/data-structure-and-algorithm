@@ -1,47 +1,57 @@
 package com.lucky.sort;
 
 import java.util.Arrays;
-/**
- * 
- * @author Allen
- * 冒泡排序
- */
-public class Code_00_BubbleSort {
 
-	public static void bubbleSort(int[] arr) {
-		//如果数组为空或者长度小于2说明有序 直接返回
+public class Code_05_MergeSort {
+
+	public static void mergeSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		/*第一层循环end代表数组最后一个位置
-		 * 第二层循环依次比较，如果前一个数大于后一个数就交换，然后end--缩小寻找范围
-		 * 再执行第二层循环找到这个范围的最大值再与end位置交换*/
-		for (int end = arr.length - 1; end > 0; end--) {
-			for (int i = 0; i < end; i++) {
-				if (arr[i] > arr[i + 1]) {
-					swap(arr, i, i + 1);
-				}
-			}
-		}
-	}
-	//交换数组下标i,j的值
-	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
-		/*
-		 * int tmp=arr[i];
-		 * arr[i]=arr[j];
-		 * arr[j]=tmp;
-		 */
+		mergeSort(arr, 0, arr.length - 1);
 	}
 
-	// for test 对数器
+	public static void mergeSort(int[] arr, int l, int r) {
+		if (l == r) {
+			return;
+		}
+		int mid = l + ((r - l) >> 1);
+		mergeSort(arr, l, mid);
+		mergeSort(arr, mid + 1, r);
+		merge(arr, l, mid, r);
+	}
+
+	public static void merge(int[] arr, int l, int m, int r) {
+		//这个函数用来合并左右两边已经排好顺序的数据
+		int[] help = new int[r - l + 1];
+		int i = 0;
+		//p1是左部分的左边界
+		int p1 = l;
+		//p2是右部分的左边界
+		int p2 = m + 1;
+		//当p1和p2都没有越界的时候执行
+		while (p1 <= m && p2 <= r) {
+			//p1和p1位置的数据进行比较，谁小就将它数据填入help数组中并且继续比较下一个数填入数组，
+			help[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
+		}
+		//下面这两个while只会有一个发生，因为只有一个p会越界，
+		while (p1 <= m) {
+			help[i++] = arr[p1++];
+		}
+		while (p2 <= r) {
+			help[i++] = arr[p2++];
+		}
+		for (i = 0; i < help.length; i++) {
+			arr[l + i] = help[i];
+		}
+	}
+
+	// for test
 	public static void comparator(int[] arr) {
 		Arrays.sort(arr);
 	}
 
-	// for test 生成一个随机数组 maxSize最大长度0~maxSize，maxValue最大值 -maxValue~maxValue
+	// for test
 	public static int[] generateRandomArray(int maxSize, int maxValue) {
 		int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
 		for (int i = 0; i < arr.length; i++) {
@@ -101,10 +111,12 @@ public class Code_00_BubbleSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			bubbleSort(arr1);
+			mergeSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
+				printArray(arr1);
+				printArray(arr2);
 				break;
 			}
 		}
@@ -112,8 +124,9 @@ public class Code_00_BubbleSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		bubbleSort(arr);
+		mergeSort(arr);
 		printArray(arr);
+
 	}
 
 }
