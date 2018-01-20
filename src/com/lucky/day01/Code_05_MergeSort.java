@@ -1,30 +1,49 @@
-package com.lucky.sort;
+package com.lucky.day01;
 
 import java.util.Arrays;
-/**
- * 
- * @author Allen
- * 选择排序
- */
-public class Code_02_SelectionSort {
 
-	public static void selectionSort(int[] arr) {
+public class Code_05_MergeSort {
+
+	public static void mergeSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		for (int i = 0; i < arr.length - 1; i++) {
-			int minIndex = i;
-			for (int j = i + 1; j < arr.length; j++) {
-				minIndex = arr[j] < arr[minIndex] ? j : minIndex;
-			}
-			swap(arr, i, minIndex);
-		}
+		mergeSort(arr, 0, arr.length - 1);
 	}
 
-	public static void swap(int[] arr, int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
+	public static void mergeSort(int[] arr, int l, int r) {
+		if (l == r) {
+			return;
+		}
+		int mid = l + ((r - l) >> 1);
+		mergeSort(arr, l, mid);
+		mergeSort(arr, mid + 1, r);
+		merge(arr, l, mid, r);
+	}
+
+	public static void merge(int[] arr, int l, int m, int r) {
+		//这个函数用来合并左右两边已经排好顺序的数据
+		int[] help = new int[r - l + 1];
+		int i = 0;
+		//p1是左部分的左边界
+		int p1 = l;
+		//p2是右部分的左边界
+		int p2 = m + 1;
+		//当p1和p2都没有越界的时候执行
+		while (p1 <= m && p2 <= r) {
+			//p1和p1位置的数据进行比较，谁小就将它数据填入help数组中并且继续比较下一个数填入数组，
+			help[i++] = arr[p1] < arr[p2] ? arr[p1++] : arr[p2++];
+		}
+		//下面这两个while只会有一个发生，因为只有一个p会越界，
+		while (p1 <= m) {
+			help[i++] = arr[p1++];
+		}
+		while (p2 <= r) {
+			help[i++] = arr[p2++];
+		}
+		for (i = 0; i < help.length; i++) {
+			arr[l + i] = help[i];
+		}
 	}
 
 	// for test
@@ -92,7 +111,7 @@ public class Code_02_SelectionSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			selectionSort(arr1);
+			mergeSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
@@ -105,9 +124,9 @@ public class Code_02_SelectionSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		selectionSort(arr);
+		mergeSort(arr);
 		printArray(arr);
+
 	}
 
 }
-

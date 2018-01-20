@@ -1,47 +1,70 @@
-package com.lucky.sort;
+package com.lucky.day01;
 
 import java.util.Arrays;
 /**
  * 
  * @author Allen
- * 冒泡排序
+ * 堆排序
  */
-public class Code_00_BubbleSort {
+public class Code_03_HeapSort {
 
-	public static void bubbleSort(int[] arr) {
-		//如果数组为空或者长度小于2说明有序 直接返回
+	public static void heapSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		/*第一层循环end代表数组最后一个位置
-		 * 第二层循环依次比较，如果前一个数大于后一个数就交换，然后end--缩小寻找范围
-		 * 再执行第二层循环找到这个范围的最大值再与end位置交换*/
-		for (int end = arr.length - 1; end > 0; end--) {
-			for (int i = 0; i < end; i++) {
-				if (arr[i] > arr[i + 1]) {
-					swap(arr, i, i + 1);
-				}
-			}
+		for (int i = 0; i < arr.length; i++) {
+			heapInsert(arr, i);
+		}
+		//size是堆的大小
+		int size = arr.length;
+		//0位置和堆最后一个位置上的数交换，size减一，
+		swap(arr, 0, --size);
+		while (size > 0) {
+			heapify(arr, 0, size);
+			swap(arr, 0, --size);
 		}
 	}
-	//交换数组下标i,j的值
-	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
-		/*
-		 * int tmp=arr[i];
-		 * arr[i]=arr[j];
-		 * arr[j]=tmp;
-		 */
+	//调整成大根堆
+	public static void heapInsert(int[] arr, int index) {
+		while (arr[index] > arr[(index - 1) / 2]) {
+			swap(arr, index, (index - 1) / 2);
+			index = (index - 1) / 2;
+		}
+	}
+	//
+	public static void heapify(int[] arr, int index, int size) {
+		//left代表index的左孩子的位置
+		int left = index * 2 + 1;
+		//left左孩子小于size说明没越界
+		while (left < size) {
+			//left+1代表index右孩子的位置
+			//右孩子不越界并且右孩子位置的值大于左孩子位置的值
+			//那么这个最大值的位置就是右孩子，否则就是左孩子
+			//简单说就是取出我的左右孩子中较大孩子的下标
+			int largest = left + 1 < size && arr[left + 1] > arr[left] ? left + 1 : left;
+			//这个largest位置的值和父节点的值比较，取出较大的下标
+			largest = arr[largest] > arr[index] ? largest : index;
+			if (largest == index) {
+				break;
+			}
+			swap(arr, largest, index);
+			index = largest;
+			left = index * 2 + 1;
+		}
 	}
 
-	// for test 对数器
+	public static void swap(int[] arr, int i, int j) {
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
+	}
+
+	// for test
 	public static void comparator(int[] arr) {
 		Arrays.sort(arr);
 	}
 
-	// for test 生成一个随机数组 maxSize最大长度0~maxSize，maxValue最大值 -maxValue~maxValue
+	// for test
 	public static int[] generateRandomArray(int maxSize, int maxValue) {
 		int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
 		for (int i = 0; i < arr.length; i++) {
@@ -101,7 +124,7 @@ public class Code_00_BubbleSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			bubbleSort(arr1);
+			heapSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
@@ -112,8 +135,9 @@ public class Code_00_BubbleSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		bubbleSort(arr);
+		heapSort(arr);
 		printArray(arr);
 	}
 
 }
+

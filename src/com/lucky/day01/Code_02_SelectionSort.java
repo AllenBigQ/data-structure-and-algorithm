@@ -1,33 +1,30 @@
-package com.lucky.sort;
+package com.lucky.day01;
 
 import java.util.Arrays;
 /**
  * 
  * @author Allen
- * 插入排序
+ * 选择排序
  */
-public class Code_01_InsertionSort {
-	/*第一层循环是无序表第二层循环是有序表，
-	默认数组的第一个数i=0是有序表，
-	然后从第二个数i=1开始往有序表里插入，
-	插入的同时进行比较，如果前一个数存在并且大于后一个数则交换
-	j--继续比较
-	*/
-	public static void insertionSort(int[] arr) {
+public class Code_02_SelectionSort {
+
+	public static void selectionSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		for (int i = 1; i < arr.length; i++) {
-			for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
-				swap(arr, j, j + 1);
+		for (int i = 0; i < arr.length - 1; i++) {
+			int minIndex = i;
+			for (int j = i + 1; j < arr.length; j++) {
+				minIndex = arr[j] < arr[minIndex] ? j : minIndex;
 			}
+			swap(arr, i, minIndex);
 		}
 	}
 
 	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	// for test
@@ -95,10 +92,12 @@ public class Code_01_InsertionSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			insertionSort(arr1);
+			selectionSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
+				printArray(arr1);
+				printArray(arr2);
 				break;
 			}
 		}
@@ -106,7 +105,7 @@ public class Code_01_InsertionSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		insertionSort(arr);
+		selectionSort(arr);
 		printArray(arr);
 	}
 

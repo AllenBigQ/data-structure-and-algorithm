@@ -1,4 +1,4 @@
-package com.lucky.sort;
+package com.lucky.day01;
 
 public class Test {
 	public static void swap1(int x){

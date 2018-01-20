@@ -1,4 +1,4 @@
-package com.lucky.sort;
+package com.lucky.day01;
 /**
  * 
  * @author Allen
