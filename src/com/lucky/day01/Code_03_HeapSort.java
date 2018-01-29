@@ -12,6 +12,7 @@ public class Code_03_HeapSort {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
+		//将数组调成为大根堆
 		for (int i = 0; i < arr.length; i++) {
 			heapInsert(arr, i);
 		}
@@ -24,14 +25,15 @@ public class Code_03_HeapSort {
 			swap(arr, 0, --size);
 		}
 	}
-	//调整成大根堆
+	//数组刚开始是堆结构，但不一定是大根堆结构所以这一步先调整成大根堆
+	//例如数组是5 7 0 6 8，调整成大根堆后是8 7 0 5 6	,index从0或者从1开始都是可以的
 	public static void heapInsert(int[] arr, int index) {
 		while (arr[index] > arr[(index - 1) / 2]) {
 			swap(arr, index, (index - 1) / 2);
 			index = (index - 1) / 2;
 		}
 	}
-	//
+	//index表示我从哪个位置开始heapify(英译堆化),size代表堆得大小是多少(不是数组的大小)
 	public static void heapify(int[] arr, int index, int size) {
 		//left代表index的左孩子的位置
 		int left = index * 2 + 1;
@@ -118,7 +120,7 @@ public class Code_03_HeapSort {
 	// for test
 	public static void main(String[] args) {
 		int testTime = 500000;
-		int maxSize = 100;
+		int maxSize = 30;
 		int maxValue = 100;
 		boolean succeed = true;
 		for (int i = 0; i < testTime; i++) {
