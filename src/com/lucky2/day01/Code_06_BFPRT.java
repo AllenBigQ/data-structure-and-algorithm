@@ -85,12 +85,14 @@ public class Code_06_BFPRT {
 		}
 		return res;
 	}
-
+	//求arr数组中，在begin到end范围上求第i小的数
 	public static int bfprt(int[] arr, int begin, int end, int i) {
 		if (begin == end) {
 			return arr[begin];
 		}
+		//划分值 5个一组划分，取每组的的中位数组成数组，再取这个数组中位数作为划分值
 		int pivot = medianOfMedians(arr, begin, end);
+		//以pivot为划分值，返回等于区域的范围
 		int[] pivotRange = partition(arr, begin, end, pivot);
 		if (i >= pivotRange[0] && i <= pivotRange[1]) {
 			return arr[i];
