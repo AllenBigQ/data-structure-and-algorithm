@@ -7,7 +7,7 @@ package com.lucky.offer66;
  *
  */
 public class Solution2 {
-	public String replaceSpace(StringBuffer str) {
+	public static String replaceSpace(StringBuffer str) {
 		StringBuffer s = new StringBuffer();
 		char [] c =str.toString().toCharArray();
 		int index=0;
@@ -22,4 +22,10 @@ public class Solution2 {
         }
         return s.toString();
     }
+	public static void main(String[] args) {
+		StringBuffer str = new StringBuffer("We Are Family");
+		System.out.println(str);
+		String s = replaceSpace(str);
+		System.out.println(s);
+	}
 }

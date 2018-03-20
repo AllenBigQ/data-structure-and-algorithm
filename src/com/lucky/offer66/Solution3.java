@@ -6,10 +6,11 @@ package com.lucky.offer66;
  *
  */
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Stack;
 
 public class Solution3 {
-	public class ListNode {
+	public static class ListNode {
 		int val;
 		ListNode next = null;
 
@@ -18,7 +19,7 @@ public class Solution3 {
 		}
 	}
 
-	public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+	public static ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
 		ArrayList list = new ArrayList<Integer>();
 		if (listNode == null) {
 			return list;
@@ -32,5 +33,15 @@ public class Solution3 {
 			list.add(s.pop());
 		}
 		return list;
+	}
+
+	public static void main(String[] args) {
+		ListNode l = new ListNode(1);
+		l.next = new ListNode(2);
+		l.next.next = new ListNode(3);
+		l.next.next.next = new ListNode(4);
+		ArrayList al = new ArrayList<Integer>();
+		al = printListFromTailToHead(l);
+		System.out.println(al);
 	}
 }

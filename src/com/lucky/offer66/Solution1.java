@@ -8,7 +8,7 @@ package com.lucky.offer66;
  *
  */
 public class Solution1 {
-	public boolean Find(int target, int[][] array) {
+	public static boolean Find(int target, int[][] array) {
 		int i = 0, j = array[0].length - 1;
 		while (i < array.length && j > -1) {
 			if(target<array[i][j]){
@@ -21,5 +21,9 @@ public class Solution1 {
 		}
 		return false;
 	}
-	
+	public static void main(String[] args) {
+		int [][] array = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+		Boolean b = Find(10,array);
+		System.out.println(b);
+	}
 }
